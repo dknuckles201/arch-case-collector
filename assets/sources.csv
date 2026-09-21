@@ -1,0 +1,18 @@
+﻿tier,site,domain,use,fetch,notes
+S,事务所官网,各事务所官方域名,事实核验锚点/字段裁决,web,OMA/MAD/直向/大样等；建筑师搜索时优先
+S,业主/官方新闻稿,-,事实核验锚点,web,项目官方发布
+S,竞赛官方,-,获奖与方案事实,web,竞赛组委会公告
+A,谷德设计网,goood.cn / goood.asia,深度信息与高质量图片主要来源(国内),web,
+A,有方 ArchPosition,archiposition.com,深度报道与评论(国内),web,
+A,建筑学报/时代建筑,期刊官网可见部分,学术解读(国内),web,抓取受限时降级并记录
+A,ArchDaily,archdaily.cn / archdaily.com,项目档案(国际+中国站),web,
+A,Dezeen,dezeen.com,项目报道(国际),web,
+A,Detail,detail.de,构造与细部(国际),web,部分付费墙
+B,微信公众号,mp.weixin.qq.com,中文一手设计解读(常为事务所官方转载或首发),browser,登录墙/正文 JS 渲染→默认 browser-skill 读取；搜索引擎可索引到的正文摘要可先用 WebSearch 定位；图片多带水印/压缩，仅作补充图源
+B,小红书,xiaohongshu.com,中文一线实操情报(材料做法/造价/甲方视角),browser,登录墙+反爬→默认 browser-skill 登录态读取；图片带平台水印可接受
+C,Wikipedia,zh.wikipedia.org / en.wikipedia.org,概览与跨案例比对,web,
+C,百度百科,baike.baidu.com,概览(国内),web,事实须回源核验
+C,ArchDaily 项目库,archdaily.com/search,项目检索,web,
+C,architectuul,architectuul.com,建筑师作品索引,web,
+C,知乎,zhihu.com,讨论与线索,browser,登录墙→默认 browser-skill 读取；只作线索
+C,Pinterest,pinterest.com,图片灵感,browser,登录墙+反爬→默认 browser-skill 读取；只作线索

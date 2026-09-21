@@ -1,0 +1,78 @@
+# arch-case-collector 配置
+# 上次使用的选项会记录在 last_options；每次任务未显式给出的选项取这里。
+
+vault:
+  path: "U:\\DK_iCloud\\iCloudDrive\\iCloud~md~obsidian\\Arch_Vault"
+  case_root: "01 - 案例库"
+  attachments: "attachments"
+  receipt_dir: "00 - Meta/搜集回执"
+  spec: "00 - Meta/案例库整理规范.md"   # vault 规范，执行前必读
+  tags_doc: "00 - Meta/标签体系.md"
+
+workspace:
+  staging: "C:\\Users\\DK\\WorkBuddy\\建筑skill\\staging"
+  blueprint: "C:\\Users\\DK\\WorkBuddy\\建筑skill\\案例搜集skill-设计蓝图.md"
+
+defaults:
+  count: 5
+  region: 不限
+  year_range: 不限
+  source_lang: 中英混合          # 中文为主 / 国际为主 / 中英混合
+  use_browser: auto              # auto / always / off
+  mode: standard                 # standard(>=70) / strict(>=80) / loose(>=60)
+  pref: ""                       # 研究偏好，默认关闭；临时指定仅作相关度加分
+  confirm: true                  # 落库前候选清单确认
+  report_to: "00 - Meta/搜集回执"
+  candidate_dedup: true          # 候选清单阶段即与案例库全库查重，命中默认排除出收录建议
+  candidate_list: "候选清单.html"  # 可视化候选清单文件名（生成于 staging/<批次名>/）
+
+thresholds:
+  standard: 70
+  strict: 80
+  loose: 60
+  candidate_floor: 40            # 低于此值直接丢弃
+
+weights:                         # 百分制评分权重
+  credibility: 0.35
+  relevance: 0.30
+  completeness: 0.25
+  freshness: 0.10
+
+credibility_by_tier:             # 命中最高级别来源的基础分（多源取高）
+  S: 100                         # 事务所官网 / 官方
+  A: 85                          # 专业媒体：gooood/有方/ArchDaily/Dezeen…
+  community_primary: 75          # B 级 中文一手社区媒体：微信公众号 / 小红书（公众号若为事务所官方号按 A=85）
+  index: 40                      # C 级 百科/索引：Wikipedia/百度百科/architectuul…
+  lead: 20                       # D 级 线索：知乎/Pinterest/未署名拼贴
+
+image_rules:
+  min_per_case: 5
+  max_per_case: 20
+  web_dir: "attachments/Clippings"      # 网页/媒体抓图
+  batch_dir: "attachments/DailyArc"     # DailyArc 等批量图源
+  naming: "001-<短描述>.jpg"
+  candidate_cover_dir: "候选题图"        # 候选阶段题图暂存目录（staging/<批次名>/ 下）
+  candidate_cover_prefer: "鸟瞰/全景主图 > 正文首图"  # 题图挑选优先级
+
+# 上次任务选项（skill 运行时更新）
+last_options:
+  date: 2026-09-06
+  batch: "2026-09-06-住宅商住FAR2.0"
+  query: "住宅/商住地块：容积率 1.8~2.2，用地 1~2 万㎡，至少 10 候选"
+  count: 7
+  type: 住宅居住
+  year_range: 不限（含 2011/2012/2024/2025/2026 多时段）
+  region: 不限
+  source_lang: 中文
+  use_browser: no               # 本轮主要用 curl + WebSearch + WebFetch；政府公示附图受 IP 限制 403
+  mode: standard
+  pref: "S级政府公示为主 + A级专业媒体补设计品质（住宅/商住小地块）"
+  confirm: true                 # 用户对候选清单 13 候选确认后，A 组 7 候选全部落库
+  report_to: "00 - Meta/搜集回执"
+  notes:
+    - "本批为住宅/商住小地块 FAR≈2.0 主题，A 组 7 候选全部落库"
+    - "vault 住宅居住笔记 4 → 11（+7），attachments/Clippings/ 目录 32 → 39（+7）"
+    - "图片策略：澳海（政府公示 3jpg+1pdf）最完整；绿城周浦（公示 PDF 1）；其余 5 个因政府公示附图 403 受 IP 限制未抓到原图，cover 用 .md 说明文件锚点，参考资料链接指向原始公示页"
+    - "3 候选设计单位待核实：武汉 P(2025)040 / 长宁 F1-09 / 澳海新天地 / 中海·圣领；后续补设计单位后改名即可"
+    - "新增建筑师标签已登记：浙江绿城六和建筑设计有限公司 / 武汉博宏建设集团有限公司 / 上海越招置业"
+    - "B 组 6 候选（狮城银座/珠海 2025-13/书香樾/嘉兴紫城·峰睿里/福州建总·瑞璟/观江樾）已核查但本批未落库，列入候选清单 B 组供后续批次挑取"
