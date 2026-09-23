@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="zh-CN"><meta charset="utf-8"><title>Architecture Case Research Dashboard</title>
+<style>body{font:14px system-ui,sans-serif;margin:32px;color:#222}table{border-collapse:collapse;width:100%;margin:12px 0 28px}th,td{border:1px solid #ddd;padding:8px;text-align:left;vertical-align:top}th{background:#f4f4f4}.p0{color:#a00}.meta{display:flex;gap:24px;flex-wrap:wrap}.card{background:#f7f7f7;padding:12px 16px;border-radius:6px}.note{color:#666}</style>
+<body><h1>Coverage Dashboard</h1>
+<p class="note">Phase 5 只提出研究建议，不自动写入案例事实、证据裁决或素材确认。</p>
+<div class="meta">
+<div class="card">研究缺口 <strong>5</strong></div>
+<div class="card">增量查询 <strong>3</strong></div>
+<div class="card">查询预算 <strong>3 / 3</strong></div>
+</div>
+<h2>下一步最值得研究的缺口</h2>
+<table><thead><tr><th>优先级</th><th>案例</th><th>缺口类型</th><th>分数</th><th>查询数</th><th>原因</th></tr></thead><tbody><tr><td>P0</td><td>高相关园区</td><td>只有转载来源</td><td>100.0</td><td>1</td><td>来源域名 2 个、有效独立内容 1 个，存在转载聚集，需寻找一手来源。</td></tr><tr><td>P0</td><td>高相关园区</td><td>高相关但证据不足</td><td>88.4</td><td>1</td><td>相关度 92.0，但证据质量 20.0，优先补一手或直接证据。</td></tr><tr><td>P1</td><td>相似项目</td><td>相似但资料不足</td><td>79.9</td><td>0</td><td>与高价值案例相似度 88.0，但资料完整度 30.0，值得定向补齐。</td></tr><tr><td>P2</td><td>高相关园区</td><td>缺关键图纸</td><td>58.7</td><td>0</td><td>缺少关键图纸：site_plan，需要定向找图纸来源。</td></tr><tr><td>P0</td><td>冲突项目</td><td>字段冲突未解决</td><td>56.0</td><td>1</td><td>字段冲突未裁决：floor_area；仅收集候选证据，不自动改值。</td></tr></tbody></table>
+<h2>停止条件</h2><ul><li>stop when all P0 priorities have a human-reviewed resolution or explicit rejection</li><li>stop when two consecutive targeted queries add no new source, evidence, or asset</li><li>stop when the configured query, fetch, or review budget is exhausted</li><li>never auto-apply evidence, resolve conflicts, or promote predicted asset types</li></ul>
+</body></html>

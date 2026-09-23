@@ -1,0 +1,2 @@
+{"case_id":"case_high","missing_fields":["site_plan","floor_area"]}
+{"case_id":"case_conflict","field":"floor_area","status":"conflict"}

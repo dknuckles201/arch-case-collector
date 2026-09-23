@@ -1,0 +1,2 @@
+{"case_id":"case_high","source_id":"src1","domain":"media.example","content_sha256":"same"}
+{"case_id":"case_high","source_id":"src2","domain":"copy.example","content_sha256":"same","source_kind":"syndicated"}

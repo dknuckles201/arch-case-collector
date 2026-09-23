@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Active research priority",
+  "type": "object",
+  "required": ["priority_id", "case_id", "gap_type", "priority", "score", "rationale", "requires_human_review", "auto_apply", "status"],
+  "properties": {
+    "priority_id": {"type": "string"},
+    "case_id": {"type": "string"},
+    "gap_type": {"enum": ["high_relevance_low_evidence", "missing_key_drawings", "syndicated_only", "field_conflict", "similar_incomplete"]},
+    "priority": {"enum": ["P0", "P1", "P2"]},
+    "score": {"type": "number", "minimum": 0, "maximum": 100},
+    "rationale": {"type": "string"},
+    "requires_human_review": {"const": true},
+    "auto_apply": {"const": false},
+    "status": {"const": "proposed"}
+  }
+}

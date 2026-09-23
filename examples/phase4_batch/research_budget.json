@@ -1,0 +1,42 @@
+{
+  "allocated_fetches": 1,
+  "allocated_queries": 3,
+  "allocated_review_minutes": 5,
+  "by_gap_type": {
+    "field_conflict": {
+      "allocated_priorities": 1,
+      "allocated_queries": 1,
+      "candidate_count": 1
+    },
+    "high_relevance_low_evidence": {
+      "allocated_priorities": 1,
+      "allocated_queries": 1,
+      "candidate_count": 1
+    },
+    "missing_key_drawings": {
+      "allocated_priorities": 0,
+      "allocated_queries": 0,
+      "candidate_count": 1
+    },
+    "similar_incomplete": {
+      "allocated_priorities": 0,
+      "allocated_queries": 0,
+      "candidate_count": 1
+    },
+    "syndicated_only": {
+      "allocated_priorities": 1,
+      "allocated_queries": 1,
+      "candidate_count": 1
+    }
+  },
+  "generated_at": "2026-09-22T12:46:32+00:00",
+  "max_fetches": 1,
+  "max_queries": 3,
+  "max_review_minutes": 5,
+  "stop_conditions": [
+    "stop when all P0 priorities have a human-reviewed resolution or explicit rejection",
+    "stop when two consecutive targeted queries add no new source, evidence, or asset",
+    "stop when the configured query, fetch, or review budget is exhausted",
+    "never auto-apply evidence, resolve conflicts, or promote predicted asset types"
+  ]
+}

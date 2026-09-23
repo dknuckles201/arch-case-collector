@@ -319,9 +319,14 @@ description: 建筑设计案例搜集器。输入一个主题（类型/材料/�
 1. **素材归档**：改 `scripts/to_vault.py` 的 `PLAN` 表（`(项目名, 源目录key, [(源文件名, 目标文件名)])`），跑 `--dry` 看清单，再正式执行。脚本按 vault 写入安全机制走「写 `.tmp` → 读回 md5 校验 → 原子改名」，且**目标已存在则跳过、绝不覆盖**。
    - **补轮次（第二轮及以后）不要改 `to_vault.py`**，另存 `to_vault2.py` / `to_vault3.py`，`PLAN` 写成 `(项目名, 源目录key, 起始编号, [...])`，**新编号一律追加在既有最大编号之后**——这样**既有文件名一个都不动**，不会破坏已发布的笔记引用。
 2. **写笔记 2 篇**：专题主笔记 + 本批研究正文（正文内用 `![[attachments/Clippings/<项目名>/NNN-xxx.jpg]]` 嵌入）。
+   - 🚨 **卡口（2026-09-21 真实失误，必查）**：**「图片已复制进 vault」≠「笔记里有图」**。本批首次落库时 39 张图已归档，但两篇笔记的 `![[...]]` 嵌入数为 **0**——正文只用 `` `文件名` `` 字符串提及（可读、可查、但 Obsidian **渲染不出图**），被用户当场发现。
+     ⇒ **写完笔记必须跑双向计数，两个数都要核**：① **正向**：笔记里每个 `![[...]]` 的目标路径 `os.path.exists` 为真（防死链）；② **反向**：遍历本批 vault 图片目录，**每张图都能在笔记文本里按其文件名找到引用**（防漏嵌）。用 `scripts/verify_vault.py` 一次跑完两项。
+     ⇒ **反向计数是唯一能抓住「漏嵌」的手段**——正向计数在漏嵌时照样全绿。
+     ⇒ 嵌入位置：**按项目分节**，紧跟该项目的参数表 / 分析段之后（`#### <项目名> · <内容>` 小节），**不要**全部堆到文末图库——图要与结论同屏才可读。
 3. **登记 MOC**：在 `<vault>/06 - 专题研究/MOC - 专题研究.md` 的「**专题目录**」补一行 wikilink；若有新 `research/*` 标签，在「**标签规范**」表补一行。⚠️ **只改这两处手工列表/表格，Dataview 查询块一个字都不许动**。
 4. **写搜集回执**：`00 - Meta/搜集回执/YYYY-MM-DD-<主题>-搜集回执.md`（见 §6）。
 5. **落库验证**：读回每篇笔记（frontmatter 可解析）、用正则核一遍全部 `![[...]]` 引用**逐个存在**。用 `scripts/verify_vault.py`（核 vault 笔记的全部 `![[...]]` 是否命中 + frontmatter 可解析）与 `scripts/verify_list.py`（核 `候选清单.html` 的 `img/` 引用是否命中）。**必须同时满足「引用 0 缺失」与「vault 图片 0 未引用」两个计数**——后者能揪出「归档了但忘了嵌进笔记」的漏网图。
+   - 🚨 **这一条是本 skill 唯一抓得住「图片没嵌进正文」的检查，绝不可跳过**（2026-09-21 因跳过此条而漏嵌 39 张图）。若 `verify_vault.py` 不可用，**手工跑等价的两行 Python**：正向 `all(os.path.exists(V/e) for e in re.findall(r'!\[\[([^\]]+)\]\]', note))`、反向 `set(图片文件名) - set(笔记引用名) == 空集`。**两个断言都过了才算落库完成。**
 
 **图片命名以图面内容为准**：`NNN-<图面内容>.jpg|png`（如 `001-下叠B1b户型163.6㎡.png`）。**禁止**用来源标题或门户栏目名命名——本批据此把「按标题归类」的虚报全部改正。归档**前**先用 `scripts/audit_sheet.py`（整目录）或 `scripts/board_new.py`（给定清单，配 `raw/new_files.txt` 每行 `项目key/文件名`）生成带编号审图板逐张核验。
 
@@ -358,3 +363,16 @@ description: 建筑设计案例搜集器。输入一个主题（类型/材料/�
 3. 绝不手写或修改 MOC 查询块；
 4. 绝不臆造事实字段；
 5. 绝不写入 frontmatter 规定 12 字段之外的结构化字段。
+
+## 8. Phase 5：Active Research Loop
+
+Phase 4 批次若包含 `rankings.jsonl`、`gaps.jsonl`、`sources.jsonl`、`assets.jsonl`、`provenance_graph.json` 和可选的 `similarity.jsonl`，可生成下一轮增量研究计划：
+
+```bash
+python pipeline/active_research.py batches/<id> --max-queries 40 --max-fetches 24 --max-review-minutes 180
+python pipeline/render_dashboard.py batches/<id>
+```
+
+输出 `research_priorities.jsonl`、`queries.jsonl`、`research_budget.json`，并在 `review/dashboard.html` 显示「下一步最值得研究的缺口」前 10 项。优先级类型包括高相关低证据、缺关键图纸、只有转载来源、字段冲突、相似但资料不足。
+
+**人工确认边界保持不变**：所有优先级和查询都标记 `requires_human_review: true`，查询默认为 `approved: false`，优先级默认为 `status: proposed`、`auto_apply: false`。本阶段不会自动写入 `cases.jsonl`、`resolved_fields`、证据裁决或 `verified_type`。缺口已人工确认解决、连续两条定向查询没有新增来源/证据/素材，或任一预算耗尽时停止。
